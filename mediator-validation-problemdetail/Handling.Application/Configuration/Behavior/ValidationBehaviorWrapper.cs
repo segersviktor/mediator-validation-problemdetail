@@ -27,7 +27,9 @@ where TRequest : IRequest<TResponse>
         var validator = _validators.FirstOrDefault();
         if (validator == null) return next(); 
         
-        var validationResult = validator.Validate(context);
+        var validationResult = validator.Validate(context); 
+       
+        if (validationResult.Errors.Count <= 0) return next();
         
         var parsedErrors = validationResult.Errors.Select(f => new ErrorDetails
         {
@@ -35,8 +37,7 @@ where TRequest : IRequest<TResponse>
             Reason = f.ErrorMessage,
             ValidationCode = f.ErrorCode
         }).ToList();
-        if (validationResult.Errors.Count <= 0) return next();
-        
+
         var validationErrors = _logger.LogValidation(parsedErrors, nameof(TRequest));
         return Task.FromResult(GetValidatableResult(validationErrors));
 

@@ -1,5 +1,4 @@
-﻿using Handling.Application.Logic.DemoHandler.Commands.DemoCommand;
-using Handling.Common.ResponseWrapper;
+﻿using Handling.Common.ResponseWrapper;
 using MediatR;
 
 namespace Handling.Application.Logic.DemoHandler.Commands.WrapperCommand

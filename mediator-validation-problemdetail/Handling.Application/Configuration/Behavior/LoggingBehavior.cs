@@ -12,7 +12,7 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
     private readonly ILogger<LoggingBehavior<TRequest, TResponse>> _logger;
     private readonly HttpContext? _httpContext;
 
-    public LoggingBehavior(ILogger<LoggingBehavior<TRequest, TResponse>> logger, IHttpContextAccessor contextAccessor)
+    public LoggingBehavior(ILogger<LoggingBehavior<TRequest, TResponse>> logger, RequestHandlerDelegate<TResponse> next, IHttpContextAccessor contextAccessor)
     {
         _logger = logger;
         _httpContext = contextAccessor.HttpContext;
@@ -23,9 +23,7 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
         CancellationToken cancellationToken)
     {
         var requestName = request?.GetType().Name;
-        var traceId = Activity.Current?.Id ?? _httpContext?.TraceIdentifier;
-
-
+        var traceId = Activity.Current?.Id ?? _httpContext?.TraceIdentifier; 
         var requestNameWithTraceId = $"{requestName} - Trace Id: [{traceId}]";
 
         _logger.LogInformation("[START] {RequestNameWithGuid}", requestNameWithTraceId);
@@ -47,6 +45,7 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
 
             response = await next();
         }
+        
         finally
         {
             stopwatch.Stop();

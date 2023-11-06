@@ -1,5 +1,4 @@
 using Handling.Application.Logic;
-using Handling.Application.Logic.DemoHandler.Commands.DemoCommand;
 using Handling.Application.Logic.DemoHandler.Commands.ProblemDetailCommand;
 using Handling.Application.Logic.DemoHandler.Commands.WrapperCommand;
 using Handling.Common;
@@ -12,7 +11,7 @@ namespace Handling.Api.Controllers;
 [Route("[controller]")]
 public class DemoController : ControllerBase
 {
-    protected readonly IMediator _mediator;
+    private readonly IMediator _mediator;
 
     public DemoController(IMediator mediator)
     {
@@ -60,7 +59,13 @@ public class DemoController : ControllerBase
                 "https://mydocumentation.com/problems/tickets-sold-out");
         }
     }
-
+    
+    [HttpPost("ReturnException")]
+    public IActionResult ReturnException()
+    {
+        throw new Exception("Testing problem details");
+    }
+    
     [HttpPost("ReturnParsedCustomException")]
     public IActionResult ReturnParsedCustomException([FromBody] int age)
     {
@@ -74,12 +79,6 @@ public class DemoController : ControllerBase
         }
     }
 
-
-    [HttpPost("ReturnException")]
-    public IActionResult ReturnException()
-    {
-        throw new Exception("Testing problem details");
-    }
 
     #endregion
 

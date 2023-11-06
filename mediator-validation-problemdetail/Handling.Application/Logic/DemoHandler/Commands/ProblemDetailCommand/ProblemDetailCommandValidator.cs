@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 
-namespace Handling.Application.Logic.DemoHandler.Commands.DemoCommand
+namespace Handling.Application.Logic.DemoHandler.Commands.ProblemDetailCommand
 {
-    public class ProblemDetailCommandValidator : AbstractValidator<ProblemDetailCommand.ProblemDetailCommand>
+    public class ProblemDetailCommandValidator : AbstractValidator<ProblemDetailCommand>
     {
         public ProblemDetailCommandValidator()
         {
