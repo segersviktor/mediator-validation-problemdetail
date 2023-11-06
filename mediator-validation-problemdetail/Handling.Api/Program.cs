@@ -51,7 +51,7 @@ var app = builder.Build();
 
 
 app.UseMiddleware<CorrelationIdMiddleware>();
-app.UseSwaggerDocumentation();d
+app.UseSwaggerDocumentation();
 
 app.UseAuthentication();
 app.UseAuthorization();
