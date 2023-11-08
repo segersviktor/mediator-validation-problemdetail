@@ -19,11 +19,11 @@ public static class ApplicationServiceRegistration
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
         // Add pipeline behavior for Mediator
+
         // services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviorProblemDetail<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 
-        // TODO: Add fluent validation rules to swagger
         services.AddFluentValidationRulesToSwagger();
         return services;
     }

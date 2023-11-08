@@ -13,11 +13,11 @@ builder.Services.AddSwaggerDocumentation();
 // TODO ENABLE
 // Add validation middleware when using Data Annotations
 // Add MVC before the APIBehaviorOptions
-builder.Services.AddMvc();
-
+ builder.Services.AddMvc();
+//
 // Add logic for handling the validation messages
 builder.Services.Configure<ApiBehaviorOptions>(options =>
-{ 
+{
     options.InvalidModelStateResponseFactory = context =>
     {
         var problemDetails = new ValidationProblemDetails(context.ModelState)
@@ -26,12 +26,11 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
             Instance = context.HttpContext.Request.Path,
             Status = StatusCodes.Status400BadRequest,
             Type = $"https://httpstatuses.com/validation-error",
-         };
-        
+        };
+
         return new BadRequestObjectResult(problemDetails);
     };
 });
-
 
 
 // Add HttpContextAccessor
@@ -51,7 +50,6 @@ builder.Services.AddProblemDetails(ProblemDetailConfiguration.ConfigureProblemDe
 var app = builder.Build();
 
 
-app.UseMiddleware<CorrelationIdMiddleware>();
 app.UseSwaggerDocumentation();
 
 app.UseAuthentication();

@@ -63,7 +63,7 @@ public class DemoController : ControllerBase
     [HttpPost("ReturnException")]
     public IActionResult ReturnException()
     {
-        throw new Exception("Testing problem details");
+        throw new ArgumentException("Testing problem details");
     }
     
     [HttpPost("ReturnParsedCustomException")]

@@ -7,12 +7,12 @@ using Microsoft.Extensions.Logging;
 namespace Handling.Application.Configuration.Behavior;
 
 public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : notnull, IRequest<TResponse>
+    where TRequest : IRequest<TResponse>
 {
     private readonly ILogger<LoggingBehavior<TRequest, TResponse>> _logger;
     private readonly HttpContext? _httpContext;
 
-    public LoggingBehavior(ILogger<LoggingBehavior<TRequest, TResponse>> logger, RequestHandlerDelegate<TResponse> next, IHttpContextAccessor contextAccessor)
+    public LoggingBehavior(ILogger<LoggingBehavior<TRequest, TResponse>> logger, IHttpContextAccessor contextAccessor)
     {
         _logger = logger;
         _httpContext = contextAccessor.HttpContext;
@@ -22,7 +22,7 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        var requestName = request?.GetType().Name;
+        var requestName = request.GetType().Name;
         var traceId = Activity.Current?.Id ?? _httpContext?.TraceIdentifier; 
         var requestNameWithTraceId = $"{requestName} - Trace Id: [{traceId}]";
 
